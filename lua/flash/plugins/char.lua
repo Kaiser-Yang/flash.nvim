@@ -120,6 +120,9 @@ function M.setup()
         local autohide = Config.get("char").autohide
         if Repeat.is_repeat then
           M.jump_labels = false -- never show jump labels when repeating
+          M.state = M.new()
+          M.state:hide()
+          M.state:update({ pattern = M.char })
           M.state:jump({ count = vim.v.count1 })
         else
           M.jump(key)
