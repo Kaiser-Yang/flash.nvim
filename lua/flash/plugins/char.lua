@@ -275,6 +275,8 @@ function M.jump(key)
       jump_on_max_length = false,
       actions = parsed.actions,
     })
+  else
+    M.state:hide()
   end
 
   return M.state
