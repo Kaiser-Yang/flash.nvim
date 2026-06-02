@@ -248,6 +248,7 @@ function M.jump(key)
       autojump and #M.state.results == 1
       or autojump
         and #M.state.results == 2
+        and M.motion:lower() == "f"
         and (M.state.results[1].pos == M.state.pos or M.state.results[2].pos == M.state.pos)
     then
       if not do_first_jump then
@@ -256,7 +257,10 @@ function M.jump(key)
       end
       M.state:hide()
       return M.state
-    elseif #M.state.results == 0 or #M.state.results == 1 and M.state.results[1].pos == M.state.pos then
+    elseif
+      #M.state.results == 0
+      or #M.state.results == 1 and M.motion:lower() == "f" and M.state.results[1].pos == M.state.pos
+    then
       M.state:hide()
       return M.state
     end
