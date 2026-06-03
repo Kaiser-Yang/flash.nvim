@@ -261,6 +261,13 @@ Install the plugin with your preferred package manager:
           and vim.fn.reg_executing() == ""
           and vim.fn.reg_recording() == ""
 
+        -- always do first jump when not using a count,
+        -- or when recording/executing registers
+        opts.jump.do_first_jump = opts.jump.do_first_jump
+          or vim.v.count ~= 0
+          or vim.fn.reg_executing() ~= ""
+          or vim.fn.reg_recording() ~= ""
+
         -- Show jump labels only in operator-pending mode
         -- opts.jump_labels = vim.v.count == 0 and vim.fn.mode(true):find("o")
       end,
