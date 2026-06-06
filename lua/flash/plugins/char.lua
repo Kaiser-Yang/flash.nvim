@@ -122,10 +122,19 @@ function M.setup()
           M.jump_labels = false -- never show jump labels when repeating
           M.state = M.new()
           M.state:hide()
-          M.state:update({ pattern = M.char })
+          -- BUG:
+          -- If we use "dta" to delete till "a", then use "tb" to move till "b"
+          -- the dot repeat will use "dtb" instead of "dta" but the original
+          -- behaviour is "dta", we should respect "y" in "cooption", see
+          -- ":h cpo-y"
+          M.state:update({ pattern = M.char_in_op })
           M.state:jump({ count = vim.v.count1 })
         else
+          local mode = vim.fn.mode("1")
           M.jump(key)
+          if mode:find("no") then
+            M.char_in_op = M.char
+          end
         end
         vim.schedule(function()
           M.jumping = false
