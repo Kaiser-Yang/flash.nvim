@@ -120,19 +120,24 @@ function M.setup()
         local autohide = Config.get("char").autohide
         if Repeat.is_repeat then
           M.jump_labels = false -- never show jump labels when repeating
+          -- INFO:
+          -- If we use "dta" to delete till "a", then use "fa" to move found "a"
+          -- the dot repeat will use "dfa" instead of "dta". This line will fix
+          -- this
+          M.motion = M.motion_in_op
           M.state = M.new()
           M.state:hide()
-          -- BUG:
+          -- INFO:
           -- If we use "dta" to delete till "a", then use "tb" to move till "b"
-          -- the dot repeat will use "dtb" instead of "dta" but the original
-          -- behaviour is "dta", we should respect "y" in "cooption", see
-          -- ":h cpo-y"
+          -- the dot repeat will use "dtb" instead of "dta". This line will fix
+          -- this.
           M.state:update({ pattern = M.char_in_op })
           M.state:jump({ count = vim.v.count1 })
         else
           local mode = vim.fn.mode("1")
           M.jump(key)
           if mode:find("no") then
+            M.motion_in_op = M.motion
             M.char_in_op = M.char
           end
         end
