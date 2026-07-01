@@ -179,7 +179,12 @@ function M.parse(key)
   }
   -- repeat last search when hitting the same key
   -- don't repeat when executing a macro
-  if M.visible() and vim.fn.reg_executing() == "" and M.motion:lower() == key:lower() then
+  if
+    M.visible()
+    and vim.fn.reg_executing() == ""
+    and vim.fn.reg_recording() == ""
+    and M.motion:lower() == key:lower()
+  then
     ret.actions = M.actions(M.motion)
     if ret.actions[key] then
       ret.jump = ret.actions[key]
