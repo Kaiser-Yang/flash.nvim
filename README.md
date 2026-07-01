@@ -268,6 +268,13 @@ Install the plugin with your preferred package manager:
           or vim.fn.reg_executing() ~= ""
           or vim.fn.reg_recording() ~= ""
 
+        -- disable backdrop when not enabled, when using a count,
+        -- or when recording/executing registers
+        opts.highlight.backdrop = opts.highlight.backdrop
+          and vim.v.count == 0
+          and vim.fn.reg_executing() == ""
+          and vim.fn.reg_recording() == ""
+
         -- Show jump labels only in operator-pending mode
         -- opts.jump_labels = vim.v.count == 0 and vim.fn.mode(true):find("o")
       end,
